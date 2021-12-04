@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Grafica } from '../grafica';
 import {FirestoreService} from '../firestore.service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,7 @@ export class HomePage {
     data: {} as Grafica
    }];
 
-  constructor(private firestoreService: FirestoreService) {
+  constructor(private firestoreService: FirestoreService, private router: Router) {
     //Crear una grafica vacia al empezar
     this.graficaEditando = {} as Grafica;
     this.obtenerListaGraficas();
@@ -57,6 +59,7 @@ export class HomePage {
     this.graficaEditando.precio = graficaSelec.data.precio;
     this.graficaEditando.memoria = graficaSelec.data.memoria;
     this.graficaEditando.foto = graficaSelec.data.foto;
+    this.router.navigate(['/detalle', this.idGraficaSelec]);
   }
 
   clicBotonBorrar() {
