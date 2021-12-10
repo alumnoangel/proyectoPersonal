@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FirestoreService } from '../firestore.service';
+import { Grafica } from '../grafica';
 
 @Component({
   selector: 'app-detalle',
@@ -8,12 +10,47 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DetallePage implements OnInit {
 
-  id: string = ""
+  document: any = {
+    id: "",
+    data: {} as Grafica
+  };
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  id: string = "";
+  constructor(private activatedRoute: ActivatedRoute, private FirestoreService: FirestoreService) { }
 
   ngOnInit() {
-    this.id = this.activatedRoute.snapshot.paramMap.get('id')
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.FirestoreService.consultarPorId("graficas", this.id).subscribe((resultado) => {
+      // Preguntar si se hay encontrado un document con ese ID
+      if(resultado.payload.data() != null) {
+        this.document.id = resultado.payload.id
+        this.document.data = resultado.payload.data();
+        // Como ejemplo, mostrar el título de la tarea en consola
+        console.log(this.document.data.ensamblador);
+        console.log(this.document.data);
+        console.log(this.id);
+      } else {
+        // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
+        this.document.data = {} as Grafica;
+      } 
+    });
+  }
+  clicBotonBorrar() {
+    this.FirestoreService.borrar("graficas", this.id).then(() => {
+      // Actualizar la lista completa
+      this.ngOnInit();
+      // Limpiar datos de pantalla
+      this.document.data = {} as Grafica;
+      this.id = "";
+    })
+  }
+  clicBotonModificar() {
+    this.FirestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
+      // Actualizar la lista completa
+      this.ngOnInit();
+      // Limpiar datos de pantalla
+      this.document.data = {} as Grafica;
+    })
   }
 
 }

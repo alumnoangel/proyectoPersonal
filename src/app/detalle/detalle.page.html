@@ -1,9 +1,39 @@
-<ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header>
   <ion-toolbar>
-    <ion-title>detalle</ion-title>
+    <ion-title>
+      Detalles de la tarjeta
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <p>{{ id }}</p>
+      <ion-item>
+        <ion-label>ID: {{ id }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>Marca: </ion-label>
+        <ion-input [(ngModel)] = "document.data.marca"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Ensamblador: </ion-label>
+        <ion-input [(ngModel)] = "document.data.ensamblador"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Modelo: </ion-label>
+        <ion-input [(ngModel)] = "document.data.modelo"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Precio: </ion-label>
+        <ion-input [(ngModel)] = "document.data.precio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Tamaño Memoria: </ion-label>
+        <ion-input [(ngModel)] = "document.data.memoria"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Foto: </ion-label>
+        <ion-input [(ngModel)] = "document.data.foto"></ion-input>
+      </ion-item>
+      <ion-button (click)="clicBotonBorrar()">Borrar tarjeta gráfica</ion-button>
+      <ion-button (click)="clicBotonModificar()">Modificar tarjeta gráfica</ion-button>
 </ion-content>
