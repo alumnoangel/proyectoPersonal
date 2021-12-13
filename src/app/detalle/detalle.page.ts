@@ -52,5 +52,16 @@ export class DetallePage implements OnInit {
       this.document.data = {} as Grafica;
     })
   }
+  clicBotonInsertar(){
+    this.FirestoreService.insertar("graficas", this.document.data)
+    .then(() => {
+      this.ngOnInit();
+      console.log("Grafica creada correctamente");
+      // Limpiar el contenido de la grafica que se estaba editando
+      this.document.data = {} as Grafica;
+    }, (error) => {
+      console.error(error);
+    });
+  }
 
 }

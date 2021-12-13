@@ -34,6 +34,11 @@
         <ion-label>Foto: </ion-label>
         <ion-input [(ngModel)] = "document.data.foto"></ion-input>
       </ion-item>
-      <ion-button (click)="clicBotonBorrar()">Borrar tarjeta gráfica</ion-button>
-      <ion-button (click)="clicBotonModificar()">Modificar tarjeta gráfica</ion-button>
+
+      <ion-button *ngIf="id == 'nuevo'"(click)="clicBotonInsertar()">Añadir tarjeta gráfica</ion-button>
+      <ion-button *ngIf="id != 'nuevo'"(click)="clicBotonBorrar()">Borrar tarjeta gráfica</ion-button>
+      <ion-button (click)="clicBotonModificar()">
+        <p *ngIf="id == 'nuevo'">Guardar</p>
+        <p *ngIf="id != 'nuevo'">Modificar Grafica</p>
+      </ion-button>
 </ion-content>
