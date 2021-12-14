@@ -7,33 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item>
-    <ion-label>Marca</ion-label>
-    <ion-input [(ngModel)] = "graficaEditando.marca"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Ensamblador</ion-label>
-    <ion-input [(ngModel)] = "graficaEditando.ensamblador"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Modelo</ion-label>
-    <ion-input [(ngModel)] = "graficaEditando.modelo"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Precio</ion-label>
-    <ion-input [(ngModel)] = "graficaEditando.precio"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Tamaño Memoria</ion-label>
-    <ion-input [(ngModel)] = "graficaEditando.memoria"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label>Imagen</ion-label>
-    <ion-input [(ngModel)] = "graficaEditando.foto"></ion-input>
-  </ion-item>
-  <ion-button (click)="clicBotonInsertar()">Añadir tarjeta gráfica</ion-button>
-  <ion-button (click)="clicBotonBorrar()">Borrar tarjeta gráfica</ion-button>
-  <ion-button (click)="clicBotonModificar()">Modificar tarjeta gráfica</ion-button>
+
   <h1>LISTA DE TARJETAS GRAFICAS</h1>
   <ion-list>
     <ion-item *ngFor="let documentGrafica of arrayColeccionGraficas" (click)="selecGrafica(documentGrafica)">
