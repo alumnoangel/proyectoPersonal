@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { Grafica } from '../grafica';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-detalle',
@@ -16,8 +17,9 @@ export class DetallePage implements OnInit {
   };
 
   id: string = "";
-  constructor(private activatedRoute: ActivatedRoute, private FirestoreService: FirestoreService) { }
-
+  constructor(private activatedRoute: ActivatedRoute, private FirestoreService: FirestoreService, 
+    private alertCtrl: AlertController) { }
+  
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.FirestoreService.consultarPorId("graficas", this.id).subscribe((resultado) => {
@@ -35,6 +37,33 @@ export class DetallePage implements OnInit {
       } 
     });
   }
+
+  async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      cssClass: 'my-custom-class',
+      header: 'Atención!!',
+      message: '¿Desea borrar la tarjeta de la lista?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Si',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.clicBotonBorrar();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   clicBotonBorrar() {
     this.FirestoreService.borrar("graficas", this.id).then(() => {
       // Actualizar la lista completa
