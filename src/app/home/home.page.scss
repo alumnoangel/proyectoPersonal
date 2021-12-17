@@ -38,6 +38,9 @@ ion-card-content p {
   text-align: center;
 }
 
-ion-card-content ion-avatar img {
-  text-align: center;
+ion-avatar {
+  display: block;
+  margin: auto;
+  width: 75%;
+  height: 75%;
 }
