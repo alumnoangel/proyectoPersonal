@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { Grafica } from '../grafica';
 import { AlertController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
 
 @Component({
   selector: 'app-detalle',
@@ -17,8 +19,12 @@ export class DetallePage implements OnInit {
   };
 
   id: string = "";
-  constructor(private activatedRoute: ActivatedRoute, private FirestoreService: FirestoreService, 
-    private alertCtrl: AlertController) { }
+  constructor(private activatedRoute: ActivatedRoute, 
+    private FirestoreService: FirestoreService, 
+    private alertCtrl: AlertController,
+    private loadingController: LoadingController,
+    private toastController: ToastController,
+    private imagePicker: ImagePicker,) { }
   
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -90,6 +96,62 @@ export class DetallePage implements OnInit {
       this.document.data = {} as Grafica;
     }, (error) => {
       console.error(error);
+    });
+  }
+
+  async uploadImagePicker(){
+    const loading = await this.loadingController.create({
+      message: 'Por favor espere...'
+    });
+    const toast = await this.toastController.create({
+      message: 'Imagen subida correctamente',
+      duration: 3000
+    });
+    this.imagePicker.hasReadPermission().then(
+      (result) => {
+        if(result == false){
+          this.imagePicker.requestReadPermission();
+        }
+        else{
+          this.imagePicker.getPictures({
+            maximumImagesCount: 1,
+            outputType: 1
+          }).then(
+            (results) => {
+              let carpetaImagen = "imagenes";
+              for(var i = 0; i < results.length; i++){
+                loading.present();
+                let nombreImagen = `${new Date().getTime()}`;
+                this.FirestoreService.uploadImage(carpetaImagen, nombreImagen, results[i]).then(
+                  snapshot => {snapshot.ref.getDownloadURL()
+                    .then(downloadURL => {
+                      console.log("downloadURL: " + downloadURL);
+                      toast.present();
+                      loading.dismiss();
+                    })
+                  })
+              }
+            },
+            (err) => {
+              console.log(err)
+            }
+          );
+        }
+      }, (err) => {
+        console.log(err);
+      });
+  }
+
+  async deleteFile(fileURL) {
+    const toast = await this.toastController.create({
+      message: 'Archivo borrado correctamente',
+      duration: 3000
+    });
+    this.FirestoreService.deleteFileFromURL(fileURL)
+    .then(() => {
+      toast.present();
+    }, (err) => {
+      console.log(err);
     });
   }
 
