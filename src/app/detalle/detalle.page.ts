@@ -166,6 +166,11 @@ export class DetallePage implements OnInit {
 
   public guardarDatos() {
     if(this.subirArchivoImagen) {
+
+      if(this.document.data.imageURL != null){
+        this.eliminarArchivo(this.document.data.imagenURL);
+      }
+
       // Si la imagen es nueva se sube como archivo y se actualiza la BD
       this.subirImagenActualizandoBD();
     } else {
