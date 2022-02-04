@@ -52,6 +52,7 @@ export class DetallePage implements OnInit {
       if(resultado.payload.data() != null) {
         this.document.id = resultado.payload.id
         this.document.data = resultado.payload.data();
+        this.imagenTempSrc = this.document.data.imagenURL;
         // Como ejemplo, mostrar el título de la tarea en consola
         console.log(this.document.data.ensamblador);
         console.log(this.document.data);
@@ -187,8 +188,7 @@ export class DetallePage implements OnInit {
       }
       // Si no ha cambiado la imagen no se sube como archivo, sólo se actualiza la BD
       this.actualizarBaseDatos();
-    }
-    
+    }  
   }
 
   async subirImagenActualizandoBD(){
