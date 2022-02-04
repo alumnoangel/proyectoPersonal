@@ -77,6 +77,11 @@ export class HomePage {
       this.graficaEditando = {} as Grafica;
     })
   }
+
+  clicDetalles() {
+    
+    this.router.navigate(['/detalle/nuevo']);
+  }
   
 
 }

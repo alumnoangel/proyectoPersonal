@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirestoreService } from '../firestore.service';
 import { Grafica } from '../grafica';
+import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+
 
 @Component({
   selector: 'app-detalle',
@@ -30,7 +32,8 @@ export class DetallePage implements OnInit {
   id: string = "";
   imageURL: String;
   constructor(private activatedRoute: ActivatedRoute, 
-    private firestoreService: FirestoreService, 
+    private firestoreService: FirestoreService,
+    private router: Router,
     private alertCtrl: AlertController,
     private loadingController: LoadingController,
     private toastController: ToastController,
@@ -163,6 +166,10 @@ export class DetallePage implements OnInit {
         console.log(err);
       });
   }
+  clicVolver() {
+    
+    this.router.navigate(['/home']);
+  }
 
   public guardarDatos() {
     if(this.subirArchivoImagen) {
@@ -181,6 +188,7 @@ export class DetallePage implements OnInit {
       // Si no ha cambiado la imagen no se sube como archivo, sólo se actualiza la BD
       this.actualizarBaseDatos();
     }
+    
   }
 
   async subirImagenActualizandoBD(){
@@ -220,7 +228,7 @@ export class DetallePage implements OnInit {
             this.document.data.imagenURL = downloadURL;
             this.actualizarBaseDatos();
           })
-      })    
+      })   
   } 
 
   public borrarImagen() {
@@ -229,6 +237,8 @@ export class DetallePage implements OnInit {
     // Se informa que no se debe subir ninguna imagen cuando se actualice la BD
     this.subirArchivoImagen = false;
     this.borrarArchivoImagen = true;
+    this.guardarDatos();
+    this.clicBotonModificar();
   }
 
   async eliminarArchivo(fileURL) {
@@ -248,6 +258,7 @@ export class DetallePage implements OnInit {
     console.log("Guardando en la BD: ");
     console.log(this.document.data);
     this.firestoreService.actualizar(this.coleccion, this.document.id, this.document.data);
+    this.clicBotonModificar();
   }
 
 }

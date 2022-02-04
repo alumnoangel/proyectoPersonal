@@ -37,15 +37,10 @@
 
       <ion-button *ngIf="id == 'nuevo'"(click)="clicBotonInsertar()">Guardar</ion-button>
       <ion-button id="delete" *ngIf="id != 'nuevo'"(click)="presentAlertConfirm()">Borrar tarjeta gráfica</ion-button>
-      <ion-button *ngIf="id != 'nuevo'"(click)="clicBotonModificar()">Modificar Grafica</ion-button>
-      <ion-button href="http://localhost:8100/home">Lista de Tarjetas</ion-button>
+      <ion-button *ngIf="id != 'nuevo'"(click)="clicBotonModificar()">Guardar Cambios</ion-button>
+      <ion-button (click)="clicVolver()">Lista de Tarjetas</ion-button>
       <ion-button id="selectImg" (click)="seleccionarImagen()">Añadir Imagen</ion-button>
       <ion-button id="deleteImg" (click)="borrarImagen()">Borrar Imagen</ion-button>
       <ion-button id="saveImg" (click)="guardarDatos()">Guardar Imagen</ion-button>
-      <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-        <ion-fab-button id="addImagen" (click)="seleccionarImagen()">Añadir Imagen</ion-fab-button>
-        <ion-fab-button id="addImagen" (click)="borrarImagen()">Borrar Imagen</ion-fab-button>
-        <ion-fab-button id="addImagen" (click)="guardarDatos()">Guardar Imagen</ion-fab-button>
-      </ion-fab> -->
 </ion-content>
 
