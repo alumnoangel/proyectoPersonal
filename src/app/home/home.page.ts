@@ -51,7 +51,9 @@ export class HomePage {
   selecGrafica(graficaSelec) {
     console.log("Grafica seleccionada: ");
     console.log(graficaSelec);
+
     this.idGraficaSelec = graficaSelec.id;
+    console.log("PROBANDOOOOOOOO"+this.idGraficaSelec);
     this.graficaEditando.marca = graficaSelec.data.marca;
     this.graficaEditando.ensamblador = graficaSelec.data.ensamblador;
     this.graficaEditando.modelo = graficaSelec.data.modelo;
@@ -79,7 +81,6 @@ export class HomePage {
   }
 
   clicDetalles() {
-    
     this.router.navigate(['/detalle/nuevo']);
   }
   

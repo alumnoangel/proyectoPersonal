@@ -39,29 +39,36 @@ export class DetallePage implements OnInit {
     private toastController: ToastController,
     private imagePicker: ImagePicker,) {
 
-      this.document.id = "ID_ImagenDePrueba";
-      this.obtenerDatosPorID();
+      //this.document.id = "ID_ImagenDePrueba";
+      //this.obtenerDatosPorID();
      }
 
 
   
   ngOnInit() {
+    
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.firestoreService.consultarPorId("graficas", this.id).subscribe((resultado) => {
-      // Preguntar si se hay encontrado un document con ese ID
-      if(resultado.payload.data() != null) {
-        this.document.id = resultado.payload.id
-        this.document.data = resultado.payload.data();
-        this.imagenTempSrc = this.document.data.imagenURL;
-        // Como ejemplo, mostrar el título de la tarea en consola
-        console.log(this.document.data.ensamblador);
-        console.log(this.document.data);
-        console.log(this.id);
-      } else {
-        // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
-        this.document.data = {} as Grafica;
-      } 
-    });
+    console.log("COMPROBACION"+this.id);
+    if (this.id != "nuevo"){
+      this.firestoreService.consultarPorId("graficas", this.id).subscribe((resultado) => {
+        // Preguntar si se hay encontrado un document con ese ID
+        if(resultado.payload.data() != null) {
+          this.document.id = resultado.payload.id
+          this.document.data = resultado.payload.data();
+          this.imagenTempSrc = this.document.data.imagenURL;
+          // Como ejemplo, mostrar el título de la tarea en consola
+          console.log(this.document.data.ensamblador);
+          console.log(this.document.data);
+          console.log(this.id);
+        } else {
+          // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
+          this.document.data = {} as Grafica;
+        } 
+      });
+    }else{
+      console.log("  ENTRAs ")
+      this.document.data = {} as Grafica;
+    }
   }
 
   async presentAlertConfirm() {
@@ -119,21 +126,21 @@ export class DetallePage implements OnInit {
     });
   }
 
-  async obtenerDatosPorID() {    
-    this.firestoreService.consultarPorId(this.coleccion, this.document.id).subscribe((resultado) => {
-      console.log("Datos iniciales leídos de la BD:");
-      console.log(this.document.data.imagenURL);
-      // Preguntar si se hay encontrado un document con ese ID
-      if(resultado.payload.data() != null) {
-        // Guardar los datos obtenidos en la variable document
-        this.document.data = resultado.payload.data();
-        this.imagenTempSrc = this.document.data.imagenURL;
-      } else {
-        // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
-        this.document.data = {};
-      } 
-    });
-  }
+  // async obtenerDatosPorID() {    
+  //   this.firestoreService.consultarPorId(this.coleccion, this.document.id).subscribe((resultado) => {
+  //     console.log("Datos iniciales leídos de la BD:");
+  //     console.log(this.document.data.imagenURL);
+  //     // Preguntar si se hay encontrado un document con ese ID
+  //     if(resultado.payload.data() != null) {
+  //       // Guardar los datos obtenidos en la variable document
+  //       this.document.data = resultado.payload.data();
+  //       this.imagenTempSrc = this.document.data.imagenURL;
+  //     } else {
+  //       // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
+  //       this.document.data = {};
+  //     } 
+  //   });
+  // }
 
   async seleccionarImagen() {
     // Comprobar si la aplicación tiene permisos de lectura
