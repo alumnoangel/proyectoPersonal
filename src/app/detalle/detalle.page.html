@@ -34,13 +34,12 @@
         <ion-label>Foto: </ion-label>
         <img src="{{imagenTempSrc}}">
       </ion-item>
-
-      <ion-button *ngIf="id == 'nuevo'"(click)="clicBotonInsertar()">Guardar</ion-button>
+      <ion-button *ngIf="id == 'nuevo'"(click)="insertarDatos()">Guardar</ion-button>
       <ion-button id="delete" *ngIf="id != 'nuevo'"(click)="presentAlertConfirm()">Borrar tarjeta gráfica</ion-button>
-      <ion-button *ngIf="id != 'nuevo'"(click)="clicBotonModificar()">Guardar Cambios</ion-button>
+      <ion-button *ngIf="id != 'nuevo'"(click)="guardarDatos()">Guardar Cambios</ion-button>
       <ion-button (click)="clicVolver()">Lista de Tarjetas</ion-button>
       <ion-button id="selectImg" (click)="seleccionarImagen()">Añadir Imagen</ion-button>
       <ion-button id="deleteImg" (click)="borrarImagen()">Borrar Imagen</ion-button>
-      <ion-button id="saveImg" (click)="guardarDatos()">Guardar Imagen</ion-button>
+      <!-- <ion-button id="saveImg" (click)="guardarDatos()">Guardar Imagen</ion-button> -->
 </ion-content>
 

@@ -53,7 +53,7 @@ export class HomePage {
     console.log(graficaSelec);
 
     this.idGraficaSelec = graficaSelec.id;
-    console.log("PROBANDOOOOOOOO"+this.idGraficaSelec);
+    console.log("PROBANDOOOOOOOO "+this.idGraficaSelec);
     this.graficaEditando.marca = graficaSelec.data.marca;
     this.graficaEditando.ensamblador = graficaSelec.data.ensamblador;
     this.graficaEditando.modelo = graficaSelec.data.modelo;

@@ -17,21 +17,21 @@ export class DetallePage implements OnInit {
 
   // Imagen que se va a mostrar en la página
   imagenTempSrc: String;
-
+  //nuevo: boolean = true;
   subirArchivoImagen: boolean = false;
   borrarArchivoImagen: boolean = false;
 
   // Nombre de la colección en Firestore Database
-  coleccion: String = "EjemploImagenes";
+  //coleccion: String = "EjemploImagenes";
+  id: string = "";
 
   document: any = {
     id: "",
     data: {} as Grafica
   };
 
-  id: string = "";
-  imageURL: String;
-  constructor(private activatedRoute: ActivatedRoute, 
+ 
+  constructor(private activateRoute: ActivatedRoute, 
     private firestoreService: FirestoreService,
     private router: Router,
     private alertCtrl: AlertController,
@@ -39,36 +39,28 @@ export class DetallePage implements OnInit {
     private toastController: ToastController,
     private imagePicker: ImagePicker,) {
 
-      //this.document.id = "ID_ImagenDePrueba";
-      //this.obtenerDatosPorID();
+      //this.document.id = "Prueba";
+      //this.ngOnInit();
      }
 
-
-  
-  ngOnInit() {
+  async ngOnInit() {
+    this.id = this.activateRoute.snapshot.paramMap.get('id');
+    this.firestoreService.consultarPorId("graficas", this.id).subscribe((resultado) => {
+          // Preguntar si se hay encontrado un document con ese ID
+          if(resultado.payload.data() != null) {
+            this.document.id = resultado.payload.id
+            this.document.data = resultado.payload.data();
+            this.imagenTempSrc = this.document.data.imagenURL;
+            // Como ejemplo, mostrar el título de la tarea en consola
+            console.log(this.document.data.ensamblador);
+            console.log(this.document.data);
+            console.log(this.id);
+          } else {
+            // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
+            this.document.data = {} as Grafica;
+          } 
+        });
     
-    this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log("COMPROBACION"+this.id);
-    if (this.id != "nuevo"){
-      this.firestoreService.consultarPorId("graficas", this.id).subscribe((resultado) => {
-        // Preguntar si se hay encontrado un document con ese ID
-        if(resultado.payload.data() != null) {
-          this.document.id = resultado.payload.id
-          this.document.data = resultado.payload.data();
-          this.imagenTempSrc = this.document.data.imagenURL;
-          // Como ejemplo, mostrar el título de la tarea en consola
-          console.log(this.document.data.ensamblador);
-          console.log(this.document.data);
-          console.log(this.id);
-        } else {
-          // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
-          this.document.data = {} as Grafica;
-        } 
-      });
-    }else{
-      console.log("  ENTRAs ")
-      this.document.data = {} as Grafica;
-    }
   }
 
   async presentAlertConfirm() {
@@ -97,23 +89,6 @@ export class DetallePage implements OnInit {
     await alert.present();
   }
 
-  clicBotonBorrar() {
-    this.firestoreService.borrar("graficas", this.id).then(() => {
-      // Actualizar la lista completa
-      this.ngOnInit();
-      // Limpiar datos de pantalla
-      this.document.data = {} as Grafica;
-      this.id = "";
-    })
-  }
-  clicBotonModificar() {
-    this.firestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
-      // Actualizar la lista completa
-      this.ngOnInit();
-      // Limpiar datos de pantalla
-      this.document.data = {} as Grafica;
-    })
-  }
   clicBotonInsertar(){
     this.firestoreService.insertar("graficas", this.document.data)
     .then(() => {
@@ -126,21 +101,24 @@ export class DetallePage implements OnInit {
     });
   }
 
-  // async obtenerDatosPorID() {    
-  //   this.firestoreService.consultarPorId(this.coleccion, this.document.id).subscribe((resultado) => {
-  //     console.log("Datos iniciales leídos de la BD:");
-  //     console.log(this.document.data.imagenURL);
-  //     // Preguntar si se hay encontrado un document con ese ID
-  //     if(resultado.payload.data() != null) {
-  //       // Guardar los datos obtenidos en la variable document
-  //       this.document.data = resultado.payload.data();
-  //       this.imagenTempSrc = this.document.data.imagenURL;
-  //     } else {
-  //       // No se ha encontrado un document con ese ID. Vaciar los datos que hubiera
-  //       this.document.data = {};
-  //     } 
-  //   });
-  // }
+  clicBotonBorrar() {
+    this.firestoreService.borrar("graficas", this.id).then(() => {
+      // Actualizar la lista completa
+      this.ngOnInit();
+      // Limpiar datos de pantalla
+      this.document.data = {} as Grafica;
+      this.id = "";
+    })
+  }
+
+  clicBotonModificar() {
+    this.firestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
+      // Actualizar la lista completa
+      this.ngOnInit();
+      // Limpiar datos de pantalla
+      this.document.data = {} as Grafica;
+    })
+  }
 
   async seleccionarImagen() {
     // Comprobar si la aplicación tiene permisos de lectura
@@ -187,7 +165,7 @@ export class DetallePage implements OnInit {
       }
 
       // Si la imagen es nueva se sube como archivo y se actualiza la BD
-      this.subirImagenActualizandoBD();
+      this.subirImagenActualizandoBD(false);
     } else {
       if(this.borrarArchivoImagen) {
         this.eliminarArchivo(this.document.data.imagenURL);        
@@ -198,7 +176,21 @@ export class DetallePage implements OnInit {
     }  
   }
 
-  async subirImagenActualizandoBD(){
+  async insertarDatos(){
+    if(this.subirArchivoImagen){
+      if(this.document.data.imagenURL != null){
+        await this.eliminarArchivo(this.document.data.imagenURL);
+      }
+      this.document.data.imagenURL = await this.subirImagenActualizandoBD(true);
+    }else{
+      if(this.borrarArchivoImagen){
+        await this.eliminarArchivo(this.document.data.imageURL);
+        this.document.data.imagenURL=null;
+      }
+    }
+  }
+
+  async subirImagenActualizandoBD(nuevo:boolean){
     // Mensaje de espera mientras se sube la imagen
     const loading = await this.loadingController.create({
       message: 'Please wait...'
@@ -222,9 +214,7 @@ export class DetallePage implements OnInit {
       .then(snapshot => {
         snapshot.ref.getDownloadURL()
           .then(downloadURL => {
-            // En la variable downloadURL se tiene la dirección de descarga de la imagen
-            console.log("downloadURL:" + downloadURL);
-            //this.document.data.imagenURL = downloadURL;            
+            console.log("downloadURL:" + downloadURL);          
             // Mostrar el mensaje de finalización de la subida
             toast.present();
             // Ocultar mensaje de espera
@@ -233,7 +223,11 @@ export class DetallePage implements OnInit {
             // Una vez que se ha termninado la subida de la imagen 
             //    se actualizan los datos en la BD
             this.document.data.imagenURL = downloadURL;
-            this.actualizarBaseDatos();
+            if(nuevo){
+              this.clicBotonInsertar();
+            }else{
+              this.actualizarBaseDatos();
+            }
           })
       })   
   } 
@@ -264,8 +258,11 @@ export class DetallePage implements OnInit {
   private actualizarBaseDatos() {    
     console.log("Guardando en la BD: ");
     console.log(this.document.data);
-    this.firestoreService.actualizar(this.coleccion, this.document.id, this.document.data);
-    this.clicBotonModificar();
+      this.firestoreService.actualizar("graficas", this.document.id, this.document.data); 
+    //this.clicBotonModificar();
   }
+
+
+  
 
 }
