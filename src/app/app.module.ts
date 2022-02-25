@@ -22,8 +22,11 @@ import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule, AngularFireStorageModule, SocialSharing],
-  providers: [ImagePicker, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+    AngularFirestoreModule, AngularFireStorageModule],
+  providers: [
+    ImagePicker, 
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    SocialSharing],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
