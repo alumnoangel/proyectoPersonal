@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 
 
 @Component({
@@ -37,7 +38,9 @@ export class DetallePage implements OnInit {
     private alertCtrl: AlertController,
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private imagePicker: ImagePicker,) {
+    private imagePicker: ImagePicker,
+    private socialSharing: SocialSharing
+   ) {
 
       //this.document.id = "Prueba";
       //this.ngOnInit();
@@ -61,6 +64,17 @@ export class DetallePage implements OnInit {
           } 
         });
     
+  }
+
+  async compartir(){
+    this.socialSharing.share("Marca: " + this.document.data.marca + "\n" + "Modelo: " + this.document.data.modelo + "\n" + "Ensamblador: "
+     + this.document.data.ensamblador + "\n" + "Precio: " + this.document.data.precio + "\n" + "Tamaño de Memoria: " + this.document.data.memoria
+     + "\n" + "Imagen: " + this.imagenTempSrc,
+      'Marca', ['']).then(() => {
+      // Success!
+    }).catch(() => {
+      // Error!
+    });
   }
 
   async presentAlertConfirm() {
