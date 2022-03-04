@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
 
 @Component({
   selector: 'app-sobre',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SobrePage implements OnInit {
 
-  constructor() { }
+  constructor(private callNumber: CallNumber) { }
 
   ngOnInit() {
+  }
+
+   llamar() {
+    this.callNumber.callNumber("674586553", true)
+    .then(res => console.log('Launched dialer!', res))
+    .catch(err => console.log('Error launching dialer', err));
   }
 
 }
