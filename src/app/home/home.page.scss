@@ -28,14 +28,17 @@
 
 h1{
   text-align-last: center;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 ion-card-content h2 {
    text-align: center;
+   color:black;
 }
 
 ion-card-content p {
   text-align: center;
+  color:black;
 }
 
 ion-avatar {
@@ -43,4 +46,8 @@ ion-avatar {
   margin: auto;
   width: 75%;
   height: 75%;
+}
+
+ion-card-content{
+  background-color: #a0a0a0;
 }

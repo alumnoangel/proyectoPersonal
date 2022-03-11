@@ -113,6 +113,7 @@ export class DetallePage implements OnInit {
     }, (error) => {
       console.error(error);
     });
+    this.router.navigate(['/home']);
   }
 
   clicBotonBorrar() {
@@ -123,6 +124,7 @@ export class DetallePage implements OnInit {
       this.document.data = {} as Grafica;
       this.id = "";
     })
+    this.router.navigate(['/home']);
   }
 
   clicBotonModificar() {
