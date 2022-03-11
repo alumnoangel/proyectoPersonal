@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { Grafica } from '../grafica';
 import {FirestoreService} from '../firestore.service';
 import {Router} from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { LoadingController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,16 +13,49 @@ import {Router} from '@angular/router';
 })
 export class HomePage {
   graficaEditando: Grafica;
+  userEmail: String = "";
+  userUID: String = "";
+  isLogged: boolean;
 
   arrayColeccionGraficas: any = [{
     id: "",
     data: {} as Grafica
    }];
 
-  constructor(private firestoreService: FirestoreService, private router: Router) {
+  constructor(public loadingCtrl: LoadingController,
+    private authService: AuthService,
+    private firestoreService: FirestoreService, 
+    private router: Router,
+    public afAuth: AngularFireAuth
+    ) {
     //Crear una grafica vacia al empezar
     this.graficaEditando = {} as Grafica;
     this.obtenerListaGraficas();
+  }
+
+  ionViewDidEnter() {
+    this.isLogged = false;
+    this.afAuth.user.subscribe(user => {
+      if(user){
+        this.userEmail = user.email;
+        this.userUID = user.uid;
+        this.isLogged = true;
+      }
+    })
+  }
+
+  login() {
+    this.router.navigate(["/login"]);
+  }
+
+  logout(){
+    this.authService.doLogout()
+    .then(res => {
+      this.userEmail = "";
+      this.userUID = "";
+      this.isLogged = false;
+      console.log(this.userEmail);
+    }, err => console.log(err));
   }
 
   clicBotonInsertar(){

@@ -8,6 +8,11 @@
 
 <ion-content [fullscreen]="true">
 
+  <p>Email: {{ userEmail }}</p>
+  <p>UID: {{ userUID }}</p>
+  <ion-button (click)="login()">Log in</ion-button>
+  <ion-button (click)="logout()">Log out</ion-button>
+
  <h1>TARJETAS GRAFICAS</h1>
   <ion-list>
     <ion-item >
