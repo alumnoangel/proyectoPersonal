@@ -29,8 +29,8 @@ export class SobrePage implements OnInit {
   }
 
   loadMap() {
-    let latitud = 36.6797047;
-    let longitud = -5.4470656;
+    let latitud = 37.82786563736045;
+    let longitud = -1.3877155585987992;
     let zoom = 17;
     this.map = L.map("mapId").setView([latitud, longitud], zoom);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
