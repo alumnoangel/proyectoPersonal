@@ -39,8 +39,7 @@
       <ion-button *ngIf="id != 'nuevo'"(click)="guardarDatos()">Guardar Cambios</ion-button>
       <ion-button (click)="clicVolver()">Lista de Tarjetas</ion-button>
       <ion-button id="selectImg" (click)="seleccionarImagen()">Añadir Imagen</ion-button>
-      <ion-button id="deleteImg" (click)="borrarImagen()">Borrar Imagen</ion-button>
-      <ion-button id="compartir" (click)="compartir()">Compartir</ion-button>
-      <!-- <ion-button id="saveImg" (click)="guardarDatos()">Guardar Imagen</ion-button> -->
+      <ion-button *ngIf="imagenTempSrc != null" id="deleteImg" (click)="borrarImagen()">Borrar Imagen</ion-button>
+      <ion-button *ngIf="id != 'nuevo'" id="compartir" (click)="compartir()">Compartir</ion-button>
 </ion-content>
 

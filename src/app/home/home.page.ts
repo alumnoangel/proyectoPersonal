@@ -87,16 +87,18 @@ export class HomePage {
   selecGrafica(graficaSelec) {
     console.log("Grafica seleccionada: ");
     console.log(graficaSelec);
-
-    this.idGraficaSelec = graficaSelec.id;
-    console.log("PROBANDOOOOOOOO "+this.idGraficaSelec);
-    this.graficaEditando.marca = graficaSelec.data.marca;
-    this.graficaEditando.ensamblador = graficaSelec.data.ensamblador;
-    this.graficaEditando.modelo = graficaSelec.data.modelo;
-    this.graficaEditando.precio = graficaSelec.data.precio;
-    this.graficaEditando.memoria = graficaSelec.data.memoria;
-    this.graficaEditando.foto = graficaSelec.data.foto;
-    this.router.navigate(['/detalle', this.idGraficaSelec]);
+    if(this.isLogged == true){
+      this.idGraficaSelec = graficaSelec.id;
+      console.log("PROBANDOOOOOOOO "+this.idGraficaSelec);
+      this.graficaEditando.marca = graficaSelec.data.marca;
+      this.graficaEditando.ensamblador = graficaSelec.data.ensamblador;
+      this.graficaEditando.modelo = graficaSelec.data.modelo;
+      this.graficaEditando.precio = graficaSelec.data.precio;
+      this.graficaEditando.memoria = graficaSelec.data.memoria;
+      this.graficaEditando.foto = graficaSelec.data.foto;
+      this.router.navigate(['/detalle', this.idGraficaSelec]);
+    }
+    
   }
 
   clicBotonBorrar() {
@@ -118,6 +120,7 @@ export class HomePage {
 
   clicDetalles() {
     this.router.navigate(['/detalle/nuevo']);
+    
   }
   
 
