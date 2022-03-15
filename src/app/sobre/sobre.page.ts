@@ -41,7 +41,7 @@ export class SobrePage implements OnInit {
       let longitud = -1.3877155585987992;
       let zoom = 17;
       this.map = L.map("mapId").setView([latitud, longitud], zoom);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+      L.tileLayer('https://a.tile.openstreetmap.de/{z}/{x}/{y}.png')
         .addTo(this.map);
      }).catch((error) => {
        console.log('Error getting location', error);

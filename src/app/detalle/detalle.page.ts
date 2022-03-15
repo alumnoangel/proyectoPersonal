@@ -67,10 +67,10 @@ export class DetallePage implements OnInit {
   }
 
   async compartir(){
+    let imageURL = ('https://mescreen.net/' + btoa(this.document.data.imagenURL)) + '.html.jpg';
     this.socialSharing.share("Marca: " + this.document.data.marca + "\n" + "Modelo: " + this.document.data.modelo + "\n" + "Ensamblador: "
-     + this.document.data.ensamblador + "\n" + "Precio: " + this.document.data.precio + "\n" + "Tamaño de Memoria: " + this.document.data.memoria
-     + "\n" + "Imagen: " + this.imagenTempSrc,
-      'Marca', ['']).then(() => {
+     + this.document.data.ensamblador + "\n" + "Precio: " + this.document.data.precio + "\n" + "Tamaño de Memoria: " + this.document.data.memoria,
+      'Marca', imageURL).then(() => {
       // Success!
     }).catch(() => {
       // Error!
@@ -126,15 +126,6 @@ export class DetallePage implements OnInit {
     })
     this.router.navigate(['/home']);
   }
-
-  // clicBotonModificar() {
-  //   this.firestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
-  //     // Actualizar la lista completa
-  //     this.ngOnInit();
-  //     // Limpiar datos de pantalla
-  //     this.document.data = {} as Grafica;
-  //   })
-  // }
 
   async seleccionarImagen() {
     // Comprobar si la aplicación tiene permisos de lectura
