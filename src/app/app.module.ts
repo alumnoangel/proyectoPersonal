@@ -16,6 +16,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { CallNumber } from '@awesome-cordova-plugins/call-number/ngx';
   providers: [
     ImagePicker, 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    SocialSharing, CallNumber],
+    SocialSharing, CallNumber, Geolocation],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -127,14 +127,14 @@ export class DetallePage implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  clicBotonModificar() {
-    this.firestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
-      // Actualizar la lista completa
-      this.ngOnInit();
-      // Limpiar datos de pantalla
-      this.document.data = {} as Grafica;
-    })
-  }
+  // clicBotonModificar() {
+  //   this.firestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
+  //     // Actualizar la lista completa
+  //     this.ngOnInit();
+  //     // Limpiar datos de pantalla
+  //     this.document.data = {} as Grafica;
+  //   })
+  // }
 
   async seleccionarImagen() {
     // Comprobar si la aplicación tiene permisos de lectura
@@ -174,6 +174,7 @@ export class DetallePage implements OnInit {
   }
 
   public guardarDatos() {
+    // this.clicBotonModificar();
     if(this.subirArchivoImagen) {
 
       if(this.document.data.imageURL != null){
@@ -255,7 +256,7 @@ export class DetallePage implements OnInit {
     this.subirArchivoImagen = false;
     this.borrarArchivoImagen = true;
     this.guardarDatos();
-    this.clicBotonModificar();
+    this.actualizarBaseDatos();
   }
 
   async eliminarArchivo(fileURL) {
@@ -274,9 +275,15 @@ export class DetallePage implements OnInit {
   private actualizarBaseDatos() {    
     console.log("Guardando en la BD: ");
     console.log(this.document.data);
-      this.firestoreService.actualizar("graficas", this.document.id, this.document.data); 
-    //this.clicBotonModificar();
+      //this.firestoreService.actualizar("graficas", this.document.id, this.document.data); 
+      this.firestoreService.actualizar("graficas", this.id, this.document.data).then(() => {
+        // Actualizar la lista completa
+        this.ngOnInit();
+        // Limpiar datos de pantalla
+        this.document.data = {} as Grafica;
+      })  
   }
+
 
 
   
